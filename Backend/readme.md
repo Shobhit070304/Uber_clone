@@ -56,5 +56,57 @@ The request body must be in JSON format and include the following fields:
   - `password`: A string representing the user's password (minimum length: 6 characters).
 
 
+# /users/profile
+## Overview
+The `/users/profile` route is used to retrieve the profile information of the authenticated user.
+
+## HTTP Method
+GET
+
+## Endpoint
+/users/profile
+
+## Request Body
+The request must include a valid authentication token in the headers.
+
+Authorization: Bearer <token>
+
+### Example Response
+-`user`:(object):
+  - `fullname`: An object containing:
+    - `firstname`: A string representing the user's first name (minimum length: 3 characters).
+    - `lastname`: A string representing the user's last name (minimum length: 3 characters).
+  - `email`: A string representing the user's email address (must be a valid email format).
+
+### Error Responses
+
+Unauthorized Access
+If the authentication token is missing or invalid, the server responds with a status code of 401 and a JSON object indicating unauthorized access.
+
+
+# /users/logout
+## Overview
+The `/users/logout` route is used to log out the authenticated user by invalidating the authentication token.
+
+## HTTP Method
+POST
+
+## Endpoint
+/users/logout
+
+## Request Body
+The request must include a valid authentication token in the headers or cookies.
+
+Authorization: Bearer <token>
+
+### Example Response
+On successful logout, the server responds with a status code of 200 and a JSON object indicating successful logout.
+
+### Error Responses
+
+Unauthorized Access
+If the authentication token is missing or invalid, the server responds with a status code of 401 and a JSON object indicating unauthorized access.
+
+
 
 
