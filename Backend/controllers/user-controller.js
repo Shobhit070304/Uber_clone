@@ -25,3 +25,32 @@ module.exports.registerUser = async (req, res, next) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
+
+module.exports.loginUser = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(401).json({ errors: errors.array() });
+  }
+
+  try {
+    const { email, password } = req.body;
+
+    const user = await userModel.findOne({ email: email }).select('+password');
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid Credentials" });
+    }
+
+    const isMatch = await user.comparePassword(password);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid Credentials" });
+    }
+
+    const token = user.generateAuthToken();
+    res.json({ token, user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
