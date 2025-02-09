@@ -108,5 +108,35 @@ Unauthorized Access
 If the authentication token is missing or invalid, the server responds with a status code of 401 and a JSON object indicating unauthorized access.
 
 
+## /captains/register
+
+### Overview
+The `/captains/register` route is used to register a new user in the application. It accepts user details, validates the input, hashes the password, and creates a new user record in the database.
+
+### HTTP Method
+POST
+
+### Endpoint
+`/captains/register`
+
+### Request Body
+The request body must be in JSON format and include the following fields:
+
+- `fullname`: An object containing:
+  - `firstname`: A string representing the user's first name (minimum length: 3 characters).
+  - `lastname`: A string representing the user's last name (minimum length: 3 characters).
+- `email`: A string representing the user's email address (must be a valid email format).
+- `password`: A string representing the user's password (minimum length: 6 characters).
+
+#### Example Request
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "securePassword123"
+}
 
 
