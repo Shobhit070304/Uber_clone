@@ -51,7 +51,7 @@ const captainSchema = new mongoose.Schema({
     capacity: {
       type: Number,
       required: true,
-      min: [1, "Capacity must be at least 1 passengers"],
+      min: [1, "Capacity must be at least 1 passenger"],
     },
     vechileType: {
       type: String,

@@ -9,6 +9,11 @@ module.exports.createUser = async ({
   if (!firstname || !email || !password) {
     throw new Error("Missing required fields");
   }
+  const isUser = await userModel.findOne({ email });
+  if (isUser) {
+    throw new Error("User already exists");
+  }
+
   const user = userModel.create({
     fullname: { firstname, lastname },
     email,
