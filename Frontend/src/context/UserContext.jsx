@@ -10,7 +10,7 @@ function UserContext({ children }) {
     email: "",
   });
   return (
-    <UserDataContext.Provider value={[userData, setUserData]}>
+    <UserDataContext.Provider value={{userData, setUserData}}>
       <div>{children}</div>;
     </UserDataContext.Provider>
   );

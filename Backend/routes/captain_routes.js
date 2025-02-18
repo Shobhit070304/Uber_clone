@@ -20,7 +20,7 @@ router.post(
       .withMessage("Color must be at least 3 characters long"),
     body("vechile.plate")
       .isLength({ min: 3 })
-      .withMessage("PLate must be at least 3 characters long"),
+      .withMessage("Plate must be at least 3 characters long"),
     body("vechile.capacity")
       .isLength({ min: 1 })
       .withMessage("Capacity must be at least 1"),

@@ -60,7 +60,7 @@ module.exports.loginCaptain = async (req, res, next) => {
   try {
     const token = await captain.generateAuthToken();
     res.cookie("token", token);
-    res.json({ token, captain });
+    res.status(200).json({ token, captain });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
@@ -69,7 +69,7 @@ module.exports.loginCaptain = async (req, res, next) => {
 
 module.exports.getCaptainProfile = async (req, res, next) => {
   const captain = await captainModel.findById(req.captain._id);
-  res.json(captain);
+  res.status(200).json(captain);
 };
 
 module.exports.logoutCaptain = async (req, res, next) => {
