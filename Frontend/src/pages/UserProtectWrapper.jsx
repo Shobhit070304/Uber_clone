@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
+import axios from "axios";
 
 function UserProtectWrapper({ children }) {
   const token = localStorage.getItem("token");
