@@ -112,7 +112,7 @@ function Home() {
         <div className="h-screen w-screen">
           <img
             className="w-full h-full object-center object-cover"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS9CNGpGORqzYZsvq_iuvHltTOKWtxaPWTBQ&s"
+            src="https://s.wsj.net/public/resources/images/BN-XR452_201802_M_20180228165525.gif"
             alt=""
           />
         </div>
