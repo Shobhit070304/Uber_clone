@@ -1,6 +1,6 @@
 import React from "react";
 
-function VehiclePanel({ setVechileOpen, setConfirmRideOpen }) {
+function VehiclePanel({ fare, setVechileOpen, setConfirmRideOpen }) {
   return (
     <>
       <div
@@ -61,7 +61,7 @@ function VehiclePanel({ setVechileOpen, setConfirmRideOpen }) {
             Affordable, compact rides
           </p>
         </div>
-        <p className="text-xl font-semibold">$193.20</p>
+        <p className="text-xl font-semibold">₹{fare.car}</p>
       </div>
       <div
         onClick={() => {
@@ -101,7 +101,7 @@ function VehiclePanel({ setVechileOpen, setConfirmRideOpen }) {
             Affordable motorcycle rides
           </p>
         </div>
-        <p className="text-xl font-semibold">$65.70</p>
+        <p className="text-xl font-semibold">₹{fare.moto}</p>
       </div>
       <div
         onClick={() => {
@@ -141,7 +141,7 @@ function VehiclePanel({ setVechileOpen, setConfirmRideOpen }) {
             Affordable Auto rides
           </p>
         </div>
-        <p className="text-xl font-semibold">$118.86</p>
+        <p className="text-xl font-semibold">₹{fare.auto}</p>
       </div>
     </>
   );

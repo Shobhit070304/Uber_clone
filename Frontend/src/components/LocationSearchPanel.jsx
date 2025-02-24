@@ -1,23 +1,27 @@
 import React from "react";
 
-function LocationSearchPanel({ setPanelOpen, setVechileOpen }) {
-  const locations = [
-    "123 Main St, Anytown, USA",
-    "456 Elm St, New York, USA",
-    "789 Oak Ave, Los Angeles, USA",
-    "1234 Parkway, Chicago, USA",
-    "567 Maple St, San Francisco, USA",
-  ];
+function LocationSearchPanel({
+  suggestions,
+  setVechileOpen,
+  setPanelOpen,
+  setPickUp,
+  setDestination,
+  activeField,
+}) {
+  const handleSuggestionClick = (suggestions) => {
+    if (activeField === "pickup") {
+      setPickUp(suggestions);
+    } else if (activeField === "destination") {
+      setDestination(suggestions);
+    }
+  };
 
   return (
-    <div className="px-5 ">
-      {locations.map((loc, idx) => (
+    <div className="px-5 py-10">
+      {suggestions.map((loc, idx) => (
         <div
-          onClick={() => {
-            setVechileOpen(true);
-            setPanelOpen(false);
-          }}
-          key={idx}
+        key={idx}
+          onClick={() => handleSuggestionClick(loc)}
           className="flex items-center border-2 p-1 rounded-2xl border-gray-100 active:border-black gap-4 mb-2"
         >
           <div className="p-3 rounded-full bg-[#eee]">

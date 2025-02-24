@@ -9,6 +9,7 @@ const app = express();
 const userRoutes = require("./routes/user_routes");
 const captainRoutes = require("./routes/captain_routes");
 const mapRoutes = require("./routes/maps_routes");
+const rideRoutes = require("./routes/ride_routes");
 
 app.use(cors());
 app.use(express.json());
@@ -22,5 +23,6 @@ app.get("/", (req, res) => {
 app.use("/users", userRoutes);
 app.use("/captains", captainRoutes);
 app.use("/maps", mapRoutes);
+app.use("/rides", rideRoutes);
 
 module.exports = app;
