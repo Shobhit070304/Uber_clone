@@ -1,11 +1,16 @@
 import React from "react";
 
-function VehiclePanel({ fare, setVechileOpen, setConfirmRideOpen }) {
+function VehiclePanel({
+  fare,
+  setVehicleType,
+  setVehicleOpen,
+  setConfirmRideOpen,
+}) {
   return (
     <>
       <div
         className="w-full text-gray-300 flex justify-center items-center"
-        onClick={() => setVechileOpen(false)}
+        onClick={() => setVehicleOpen(false)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +31,8 @@ function VehiclePanel({ fare, setVechileOpen, setConfirmRideOpen }) {
       <div
         onClick={() => {
           setConfirmRideOpen(true);
-          setVechileOpen(false);
+          setVehicleOpen(false);
+          setVehicleType("car")
         }}
         className="w-full mb-2 flex items-center justify-between p-3 rounded-md  active:border-2"
       >
@@ -66,7 +72,8 @@ function VehiclePanel({ fare, setVechileOpen, setConfirmRideOpen }) {
       <div
         onClick={() => {
           setConfirmRideOpen(true);
-          setVechileOpen(false);
+          setVehicleOpen(false);
+          setVehicleType("moto")
         }}
         className="w-full mb-2 flex items-center justify-between p-3 rounded-md active:border-2"
       >
@@ -106,7 +113,8 @@ function VehiclePanel({ fare, setVechileOpen, setConfirmRideOpen }) {
       <div
         onClick={() => {
           setConfirmRideOpen(true);
-          setVechileOpen(false);
+          setVehicleOpen(false);
+          setVehicleType("auto")
         }}
         className="w-full mb-2 flex items-center justify-between p-3 rounded-md active:border-2"
       >

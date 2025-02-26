@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { CaptainDataContext } from "../context/CaptainContext";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function CaptainProtectWrapper({ children }) {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const { captain, setCaptain } = useContext(CaptainDataContext);
-  const [loading, setLoading] = useState(true);
+  const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!token) {
@@ -23,7 +23,7 @@ function CaptainProtectWrapper({ children }) {
       .then((response) => {
         if (response.status === 200) {
           setCaptain(response.data.captain);
-          setLoading(false);
+          setIsLoading(false);
         }
       })
       .catch((error) => {
@@ -32,7 +32,7 @@ function CaptainProtectWrapper({ children }) {
       });
   }, [token]);
 
-  if (loading) {
+  if (isloading) {
     return <div>Loading...</div>;
   }
   return <>{children}</>;

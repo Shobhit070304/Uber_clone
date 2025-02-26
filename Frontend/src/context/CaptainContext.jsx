@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const CaptainDataContext = createContext();
 function CaptainContext({ children }) {
   const [captain, setCaptain] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const updateCaptain = (captainData) => {
@@ -14,7 +14,7 @@ function CaptainContext({ children }) {
     captain,
     setCaptain,
     isLoading,
-    setLoading,
+    setIsLoading,
     error,
     setError,
     updateCaptain,

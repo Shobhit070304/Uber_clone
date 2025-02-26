@@ -2,15 +2,15 @@ import React from "react";
 
 function LocationSearchPanel({
   suggestions,
-  setVechileOpen,
+  setVehicleOpen,
   setPanelOpen,
-  setPickUp,
+  setPickup,
   setDestination,
   activeField,
 }) {
   const handleSuggestionClick = (suggestions) => {
     if (activeField === "pickup") {
-      setPickUp(suggestions);
+      setPickup(suggestions);
     } else if (activeField === "destination") {
       setDestination(suggestions);
     }
@@ -20,7 +20,7 @@ function LocationSearchPanel({
     <div className="px-5 py-10">
       {suggestions.map((loc, idx) => (
         <div
-        key={idx}
+          key={idx}
           onClick={() => handleSuggestionClick(loc)}
           className="flex items-center border-2 p-1 rounded-2xl border-gray-100 active:border-black gap-4 mb-2"
         >

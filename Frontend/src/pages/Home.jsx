@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import LocationSearchPanel from "../components/LocationSearchPanel";
@@ -7,14 +7,19 @@ import ConfirmRide from "../components/ConfirmRide";
 import LookingForRide from "../components/LookingForRide";
 import WaitingForRide from "../components/WaitingForRide";
 import axios from "axios";
+import { SocketDataContext } from "../context/SocketContext";
+import { UserDataContext } from "../context/UserContext";
+
 function Home() {
-  const [pickUp, setPickUp] = useState("");
+  const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
-  const [vechileOpen, setVechileOpen] = useState(false);
+  const [vehicleOpen, setVehicleOpen] = useState(false);
   const [confirmRideOpen, setConfirmRideOpen] = useState(false);
   const [lookingForRideOpen, setLookingForRideOpen] = useState(false);
   const [waitingForRideOpen, setWaitingForRideOpen] = useState(false);
+  const [vehicleType, setVehicleType] = useState("");
+  const [ride, setRide] = useState();
 
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
@@ -22,17 +27,33 @@ function Home() {
   const [fare, setFare] = useState({});
 
   const panel = useRef(null);
-  const vechilePanel = useRef(null);
+  const vehiclePanel = useRef(null);
   const confirmRide = useRef(null);
   const lookingForRide = useRef(null);
   const waitingForRide = useRef(null);
+
+  const { socket } = useContext(SocketDataContext);
+  const { userData } = useContext(UserDataContext);
+
+  useEffect(() => {
+    socket.emit("join", {
+      userType: "user",
+      userId: userData._id,
+    });
+
+    socket.on("ride-confirmed", (ride) => {
+      setRide(ride);
+      setLookingForRideOpen(false);
+      setWaitingForRideOpen(true);
+    });
+  }, [userData]);
 
   function handleSubmit(e) {
     e.preventDefault();
   }
 
   const handlePickupChange = async (e) => {
-    setPickUp(e.target.value);
+    setPickup(e.target.value);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
@@ -84,17 +105,17 @@ function Home() {
 
   useGSAP(
     function () {
-      if (vechileOpen) {
-        gsap.to(vechilePanel.current, {
+      if (vehicleOpen) {
+        gsap.to(vehiclePanel.current, {
           transform: "translateY(0)",
         });
       } else {
-        gsap.to(vechilePanel.current, {
+        gsap.to(vehiclePanel.current, {
           transform: "translateY(100%)",
         });
       }
     },
-    [vechileOpen]
+    [vehicleOpen]
   );
 
   useGSAP(
@@ -143,7 +164,7 @@ function Home() {
   );
 
   async function findTrip() {
-    setVechileOpen(true);
+    setVehicleOpen(true);
     setPanelOpen(false);
 
     try {
@@ -151,7 +172,7 @@ function Home() {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
         {
-          params: { pickup: pickUp, destination },
+          params: { pickup, destination },
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -161,6 +182,24 @@ function Home() {
     } catch {
       // handle error
     }
+  }
+
+  async function createRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/create`,
+      {
+        pickup,
+        destination,
+        vehicleType,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    console.log(response.data);
   }
   return (
     <>
@@ -210,7 +249,7 @@ function Home() {
                   setPanelOpen(true);
                   setActiveField("pickup");
                 }}
-                value={pickUp}
+                value={pickup}
                 onChange={handlePickupChange}
                 className="w-full py-2 px-8 mb-4 rounded-md bg-[#eee]"
                 type="text"
@@ -235,6 +274,7 @@ function Home() {
               Find Trip
             </button>
           </div>
+          {/* Location Panel */}
           <div ref={panel} className="bg-white">
             <LocationSearchPanel
               suggestions={
@@ -243,32 +283,38 @@ function Home() {
                   : destinationSuggestions
               }
               setPanelOpen={setPanelOpen}
-              setVechileOpen={setVechileOpen}
-              setPickUp={setPickUp}
+              setVehicleOpen={setVehicleOpen}
+              setPickup={setPickup}
               setDestination={setDestination}
               activeField={activeField}
             />
           </div>
         </div>
 
-        {/* Vechile part */}
+        {/* Vehicle part */}
         <div
-          ref={vechilePanel}
+          ref={vehiclePanel}
           className="z-10 bg-white w-full translate-y-full absolute bottom-0 p-3"
         >
           <VehiclePanel
             fare={fare}
+            setVehicleType={setVehicleType}
             setConfirmRideOpen={setConfirmRideOpen}
-            setVechileOpen={setVechileOpen}
+            setVehicleOpen={setVehicleOpen}
           />
         </div>
 
         {/* Confirm ride */}
         <div
           ref={confirmRide}
-          className="z-10 bg-white w-full translate-y-full absolute bottom-0 p-3"
+          className="z-9 bg-white w-full translate-y-full absolute bottom-0 p-3"
         >
           <ConfirmRide
+            fare={fare}
+            createRide={createRide}
+            pickup={pickup}
+            destination={destination}
+            vehicleType={vehicleType}
             setConfirmRideOpen={setConfirmRideOpen}
             setLookingForRideOpen={setLookingForRideOpen}
           />
@@ -277,17 +323,22 @@ function Home() {
         {/* Looking for ride */}
         <div
           ref={lookingForRide}
-          className="z-10 bg-white w-full translate-y-full absolute bottom-0 p-3"
+          className="z-8 bg-white w-full translate-y-full absolute bottom-0 p-3"
         >
-          <LookingForRide />
+          <LookingForRide
+            fare={fare}
+            pickup={pickup}
+            destination={destination}
+            vehicleType={vehicleType}
+          />
         </div>
 
         {/* Waiting for ride */}
         <div
           ref={waitingForRide}
-          className="z-10 bg-white w-full translate-y-full absolute bottom-0 p-3"
+          className="z-7 bg-white w-full translate-y-full absolute bottom-0 p-3"
         >
-          <WaitingForRide />
+          <WaitingForRide ride={ride} />
         </div>
       </div>
     </>

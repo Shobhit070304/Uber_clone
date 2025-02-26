@@ -1,6 +1,6 @@
 import React from "react";
 
-function LookingForRide() {
+function LookingForRide({ fare, pickup, vehicleType, destination }) {
   return (
     <>
       <div className="p-2">
@@ -28,8 +28,8 @@ function LookingForRide() {
             </svg>
 
             <div>
-              <p className="text-lg font-semibold">562/11-A</p>
-              <p className="text-sm text-gray-500">Lajpat Nagar, Delhi</p>
+              {/* <p className="text-lg font-semibold">562/11-A</p> */}
+              <p className="text-sm text-gray-900">{pickup}</p>
             </div>
           </div>
           <div className="w-full border-b-2 border-gray-200 mb-1 p-2 flex gap-3 items-center">
@@ -47,8 +47,8 @@ function LookingForRide() {
             </svg>
 
             <div>
-              <p className="text-lg font-semibold">42/11-A</p>
-              <p className="text-sm text-gray-500">Patel Nagar, Delhi</p>
+              {/* <p className="text-lg font-semibold">42/11-A</p> */}
+              <p className="text-sm text-gray-900">{destination}</p>
             </div>
           </div>
           <div className="w-full border-b-2 border-gray-200 mb-1 p-2 flex gap-3 items-center">
@@ -66,7 +66,7 @@ function LookingForRide() {
             </svg>
 
             <div>
-              <p className="text-lg font-semibold">$193.45</p>
+              <p className="text-lg font-semibold">₹{fare[vehicleType]}</p>
               <p className="text-sm text-gray-500">Amount</p>
             </div>
           </div>

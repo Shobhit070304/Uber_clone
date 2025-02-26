@@ -8,7 +8,7 @@ function CaptainLogin() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const { captain, setCaptain } = useContext(CaptainDataContext);
+  const { setCaptain } = useContext(CaptainDataContext);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -22,7 +22,7 @@ function CaptainLogin() {
       captain
     );
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       const data = response.data;
       setCaptain(data.captain);
       localStorage.setItem("token", data.token);

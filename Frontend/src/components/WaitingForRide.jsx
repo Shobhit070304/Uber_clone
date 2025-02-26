@@ -1,6 +1,7 @@
 import React from "react";
 
-function WaitingForRide() {
+function WaitingForRide({ ride }) {
+  console.log(ride);
   return (
     <>
       <div className="p-2">
@@ -12,9 +13,13 @@ function WaitingForRide() {
           />
 
           <div className="flex flex-col items-end">
-            <p className="font-semibold">Shobhit</p>
-            <p className="text-lg">DL 12 3Z 0001</p>
-            <p className="text-gray-400 text-sm">Hyundai Aura</p>
+            <p className="font-semibold">
+              {ride?.captain.fullname.firstname +
+                " " +
+                ride?.captain.fullname.lastname}
+            </p>
+            <p className="text-lg">{ride?.captain.vechile.plate}</p>
+            <p className="text-gray-400 text-sm">{ride?.otp}</p>
           </div>
         </div>
         <div className="p-2 border-gray-400">
@@ -33,8 +38,8 @@ function WaitingForRide() {
             </svg>
 
             <div>
-              <p className="text-lg font-semibold">562/11-A</p>
-              <p className="text-sm text-gray-500">Lajpat Nagar, Delhi</p>
+              {/* <p className="text-lg font-semibold">562/11-A</p> */}
+              <p className="text-sm text-gray-500">{ride?.pickup}</p>
             </div>
           </div>
           <div className="w-full border-b-2 border-gray-200 mb-1 p-2 flex gap-3 items-center">
@@ -52,8 +57,8 @@ function WaitingForRide() {
             </svg>
 
             <div>
-              <p className="text-lg font-semibold">42/11-A</p>
-              <p className="text-sm text-gray-500">Patel Nagar, Delhi</p>
+              {/* <p className="text-lg font-semibold">42/11-A</p> */}
+              <p className="text-sm text-gray-500">{ride?.destination}</p>
             </div>
           </div>
           <div className="w-full border-b-2 border-gray-200 mb-1 p-2 flex gap-3 items-center">
@@ -71,7 +76,7 @@ function WaitingForRide() {
             </svg>
 
             <div>
-              <p className="text-lg font-semibold">$193.45</p>
+              <p className="text-lg font-semibold">₹{ride?.fare}</p>
               <p className="text-sm text-gray-500">Amount</p>
             </div>
           </div>
