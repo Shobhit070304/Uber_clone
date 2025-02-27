@@ -1,12 +1,16 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import FinishRide from "../components/FinishRide";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import LiveTracking from "../components/LiveTracking";
 
 function CaptainRiding() {
   const [finishRidePanelOpen, setFinishRidePanelOpen] = useState(false);
   const finishRide = useRef(null);
+  const location = useLocation();
+  const rideData = location.state?.ride;
+
   useGSAP(
     function () {
       if (finishRidePanelOpen) {
@@ -21,6 +25,7 @@ function CaptainRiding() {
     },
     [finishRidePanelOpen]
   );
+
   return (
     <>
       <div className="h-screen w-screen">
@@ -49,12 +54,9 @@ function CaptainRiding() {
               />
             </svg>
           </Link>
-
-          <img
-            className="w-full h-full object-center object-cover"
-            src="https://s.wsj.net/public/resources/images/BN-XR452_201802_M_20180228165525.gif"
-            alt=""
-          />
+          <div className="w-full h-full object-center object-cover">
+            <LiveTracking />
+          </div>
         </div>
 
         <div className="h-1/5 rounded-t-2xl bg-yellow-400 px-5 py-3">
@@ -92,7 +94,10 @@ function CaptainRiding() {
           ref={finishRide}
           className="fixed h-screen w-full z-10 bottom-0 translate-y-full bg-white px-3"
         >
-          <FinishRide setFinishRidePanelOpen={setFinishRidePanelOpen} />
+          <FinishRide
+            rideData={rideData}
+            setFinishRidePanelOpen={setFinishRidePanelOpen}
+          />
         </div>
       </div>
     </>

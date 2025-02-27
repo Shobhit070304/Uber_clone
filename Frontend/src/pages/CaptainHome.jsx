@@ -43,8 +43,8 @@ const CaptainHome = () => {
   });
 
   socket.on("new-ride", (data) => {
-    setRide(data);
     setRidesPanelOpen(true);
+    setRide(data);
   });
 
   useGSAP(

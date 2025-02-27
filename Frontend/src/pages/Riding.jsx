@@ -1,7 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { SocketDataContext } from "../context/SocketContext";
+import LiveTracking from "../components/LiveTracking";
 
 function Riding() {
+  const location = useLocation();
+  const ride = location.state?.ride;
+  const { socket } = useContext(SocketDataContext);
+  const navigate = useNavigate();
+
+  socket.on("ride-ended", () => {
+    navigate("/home");
+  });
+
   return (
     <>
       <div className="relative w-full h-screen">
@@ -25,11 +36,7 @@ function Riding() {
           </svg>
         </Link>
         <div className="h-1/2 w-full">
-          <img
-            className="w-full h-full object-center object-cover"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS9CNGpGORqzYZsvq_iuvHltTOKWtxaPWTBQ&s"
-            alt=""
-          />
+          <LiveTracking/>
         </div>
         <div className="h-1/2 w-full p-4">
           <div className="flex w-full items-center justify-between mt-4">
@@ -40,9 +47,13 @@ function Riding() {
             />
 
             <div className="flex flex-col items-end">
-              <p className="font-semibold">Shobhit</p>
-              <p className="text-lg">DL 12 3Z 0001</p>
-              <p className="text-gray-400 text-sm">Hyundai Aura</p>
+              <p className="font-semibold">
+                {ride?.captain.fullname.firstname +
+                  " " +
+                  ride?.captain.fullname.lastname}
+              </p>
+              <p className="text-lg">{ride?.captain.vechile.plate}</p>
+              {/* <p className="text-gray-400 text-sm">Hyundai Aura</p> */}
             </div>
           </div>
           <div className="p-2 border-gray-400 mt-4">
@@ -61,8 +72,8 @@ function Riding() {
               </svg>
 
               <div>
-                <p className="text-lg font-semibold">42/11-A</p>
-                <p className="text-sm text-gray-500">Patel Nagar, Delhi</p>
+                {/* <p className="text-lg font-semibold">42/11-A</p> */}
+                <p className="text-sm text-gray-500">{ride?.destination}</p>
               </div>
             </div>
             <div className="border-gray-200 mb-1 p-2 flex gap-3 items-center">
@@ -80,7 +91,7 @@ function Riding() {
               </svg>
 
               <div>
-                <p className="text-lg font-semibold">$193.45</p>
+                <p className="text-lg font-semibold">₹{ride?.fare}</p>
                 <p className="text-sm text-gray-500">Amount</p>
               </div>
             </div>

@@ -1,5 +1,6 @@
 const mapService = require("../services/map_service");
 const { validationResult } = require("express-validator");
+const captainModel = require("../models/captain_model");
 
 module.exports.getCoordinates = async (req, res, next) => {
   const errors = validationResult(req);
@@ -7,7 +8,7 @@ module.exports.getCoordinates = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
   const { address } = req.query;
-console.log(address)
+  console.log(address);
   try {
     const coordinates = await mapService.getAddressCoordinate(address);
     res.status(200).json(coordinates);
@@ -48,3 +49,4 @@ module.exports.getAutoCompleteSuggestions = async (req, res, next) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+

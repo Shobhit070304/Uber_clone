@@ -60,7 +60,7 @@ module.exports.loginUser = async (req, res, next) => {
 module.exports.getUserProfile = async (req, res, next) => {
   try {
     const user = await userModel.findById(req.user._id);
-    res.json(user);
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ error: "Server Error" });
   }

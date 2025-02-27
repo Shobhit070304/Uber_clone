@@ -81,9 +81,9 @@ function ConfirmRide({
 
           <button
             onClick={() => {
+              createRide();
               setConfirmRideOpen(false);
               setLookingForRideOpen(true);
-              createRide();
             }}
             className="w-full bg-green-500 text-white p-2 rounded-lg font-semibold mt-2"
           >

@@ -9,6 +9,8 @@ import WaitingForRide from "../components/WaitingForRide";
 import axios from "axios";
 import { SocketDataContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -32,6 +34,8 @@ function Home() {
   const lookingForRide = useRef(null);
   const waitingForRide = useRef(null);
 
+  const navigate = useNavigate();
+
   const { socket } = useContext(SocketDataContext);
   const { userData } = useContext(UserDataContext);
 
@@ -47,6 +51,12 @@ function Home() {
       setWaitingForRideOpen(true);
     });
   }, [userData]);
+
+  socket.on("ride-started", (ride) => {
+    console.log("ride-started : ", ride);
+    setWaitingForRideOpen(false);
+    navigate("/riding", { state: { ride: ride } });
+  });
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -211,11 +221,7 @@ function Home() {
           alt=""
         />
         <div className="h-screen w-screen">
-          <img
-            className="w-full h-full object-center object-cover"
-            src="https://s.wsj.net/public/resources/images/BN-XR452_201802_M_20180228165525.gif"
-            alt=""
-          />
+          <LiveTracking />
         </div>
 
         <div className="w-screen flex flex-col justify-end absolute h-screen top-0 rounded-t-3xl">

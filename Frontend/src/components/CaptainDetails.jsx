@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CaptainDataContext } from "../context/CaptainContext";
+import LiveTracking from "./LiveTracking";
 
 function CaptainDetails() {
   const { captain } = useContext(CaptainDataContext);
@@ -33,11 +34,9 @@ function CaptainDetails() {
           </svg>
         </Link>
 
-        <img
-          className="w-full h-full object-center object-cover"
-          src="https://s.wsj.net/public/resources/images/BN-XR452_201802_M_20180228165525.gif"
-          alt=""
-        />
+        <div className="w-full h-full object-center object-cover">
+          <LiveTracking />
+        </div>
       </div>
 
       <div className="h-2/5 p-5">

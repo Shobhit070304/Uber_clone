@@ -56,7 +56,14 @@ const App = () => {
           }
         />
         <Route path="/riding" element={<Riding />} />
-        <Route path="/captain-riding" element={<CaptainRiding />} />
+        <Route
+          path="/captain-riding"
+          element={
+            <CaptainProtectWrapper>
+              <CaptainRiding />
+            </CaptainProtectWrapper>
+          }
+        />
       </Routes>
     </>
   );
